@@ -1,4 +1,4 @@
-#ISTE 730 Course Project Python code
+#AWS IoT Project Python code
 #Author : Abhinav Srinivasan
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
@@ -73,12 +73,12 @@ def get_address_by_location(latitude, longitude, language="en"):
         return get_address_by_location(latitude, longitude)
         
         
-# Configuration details and certificate paths
-clientId = "Omega_AAB0"
-endpoint = "agg31r4m0arla-ats.iot.us-east-1.amazonaws.com"
-rootCAFilePath = "Amazon-CA.pem"
-privateKeyFilePath = "a1b7b422f4-private.pem.key"
-certFilePath = "a1b7b422f4-certificate.pem.crt"
+# Configuration details and certificate paths //.pem
+clientId = "Omega-0000" #your omega id or iot device id
+endpoint = "" #AmazonAWS
+rootCAFilePath = ""  
+privateKeyFilePath = "" 
+certFilePath = "" 
 
 print("Connecting to: " + endpoint + " ClientID: " + clientId)
 # For certificate based connection
@@ -125,9 +125,9 @@ topic = "Omega_AAB0/device/details"
 myMQTTClient.subscribe(topic, 1, customOnMessage)
 
 address = input("Enter address here :") #change address over here ex: Rochester, Brooks Ave, New York
-#address = "Rochester, Monroe, New York"
-#address = "Rochester, Brooks Ave, New York"
-#address = "Rochester, Henrietta, New York"
+#address1 = " "
+#address2 = " "
+#address3 = " "
 location = get_location_by_address(address)
 latitude = location["lat"]
 longitude = location["lon"]
@@ -145,17 +145,18 @@ while True:
 		check_ack(ser, "ANGLE_90")
 		print(f"{latitude}, {longitude}")
 		
-		if(latitude == "43.157285" and longitude == "-77.615214"):
-			print("You are in RIT University")
-			payload = '{"Location":"RIT"}'
+		# Store lattitude and longitude; return Location 
+			# if(latitude == "43.157285" and longitude == "-77.615214"):
+			# 	print("You are in RIT University")
+			# 	payload = '{"Location":"RIT"}'
 
-		elif(latitude == "43.11590925" and longitude == "-77.63463580644128"):
-			print("You are at rustic village")
-			payload = '{"Location":"Rustic"}'
+			# elif(latitude == "43.11590925" and longitude == "-77.63463580644128"):
+			# 	print("You are at rustic village")
+			# 	payload = '{"Location":"Rustic"}'
 	
-		elif(latitude == "43.12807995" and longitude == "-77.65757590000001"):
-			print("You are at the airport")
-			payload = '{"Location":"ROCAirport"}'
+			# elif(latitude == "43.12807995" and longitude == "-77.65757590000001"):
+			# 	print("You are at the airport")
+			# 	payload = '{"Location":"ROCAirport"}'
 			
 	elif angle == 0:
 		send_command(ser, "ANGLE_180")
@@ -180,15 +181,12 @@ while True:
 	if (num == 2):
 		time.sleep(1)
 		break
-
 	
-
 myMQTTClient.unsubscribe(topic)
 myMQTTClient.disconnect()
 	
 	
-
-# define your coordinates
+#define your coordinates if you want to hard code it
 #latitude = 43.080123
 #longitude = -77.669178
 # get the address info
